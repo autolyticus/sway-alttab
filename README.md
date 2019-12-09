@@ -23,6 +23,8 @@ git clone https://gitlab.com/reisub0/sway-alttab
 cargo install --path sway-alttab
 ```
 
+## WIP
+- Offer the ability to customise the keybindings
 
 ## License
 
