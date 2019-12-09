@@ -18,3 +18,4 @@ maintenance = { status = "actively-developed" }
 [dependencies]
 swayipc = {"version" = "^2.2.3"}
 signal-hook = {"version" = "^0.1"}
+daemonize = { "version" = "^0.4" }
