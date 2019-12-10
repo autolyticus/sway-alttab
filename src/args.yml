@@ -1,0 +1,10 @@
+name: sway-alttab
+about: Simple Alt-Tab daemon for SwayWM. Switches back to previous focused window on Alt-Tab or SIGUSR1
+author: Govind KP <reisub0@gmail.com>
+
+args:
+    - combo:
+        help: Custom key combo for switching to last window [Sway/i3 format] (defaults to "Mod1+Tab")
+        short: c
+        long: combo
+        takes_value: true

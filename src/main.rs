@@ -1,9 +1,11 @@
+extern crate clap;
 extern crate daemonize;
 
 use std::env::var;
 use std::fs::remove_file;
 use std::sync::{Arc, Mutex};
 
+use clap::{crate_version, load_yaml, App};
 use swayipc::reply::Event::Window;
 use swayipc::reply::WindowChange;
 use swayipc::{Connection, EventType};
@@ -36,11 +38,19 @@ fn unbind_key() -> Res<()> {
 }
 
 fn bind_key() -> Res<()> {
+    let yml = load_yaml!("args.yml");
+    let args = App::from_yaml(yml).version(crate_version!()).get_matches();
+    let key_combo = args.value_of("combo").unwrap_or("Mod1+Tab");
+
     let pid_file = format!(
         "{}/sway-alttab.pid",
         var("XDG_RUNTIME_DIR").unwrap_or("/tmp".to_string())
     );
-    Connection::new()?.run_command(format!("bindsym Mod1+Tab exec pkill -USR1 -F {}", pid_file))?;
+
+    Connection::new()?.run_command(format!(
+        "bindsym {} exec pkill -USR1 -F {}",
+        key_combo, pid_file
+    ))?;
     Ok(())
 }
 

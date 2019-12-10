@@ -19,3 +19,7 @@ maintenance = { status = "actively-developed" }
 swayipc = {"version" = "^2.2.3"}
 signal-hook = {"version" = "^0.1"}
 daemonize = { "version" = "^0.4" }
+
+[dependencies.clap]
+version = "2.33.0"
+features = ["yaml"]
