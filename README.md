@@ -24,7 +24,7 @@ cargo install --path sway-alttab
 ```
 
 ## WIP
-- Offer the ability to customise the keybindings
+[x] Offer the ability to customise the keybindings
 
 ## License
 
