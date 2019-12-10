@@ -1,7 +1,7 @@
 [package]
 name = "sway-alttab"
 description = "Simple Alt-Tab daemon for SwayWM. Switches back to previous focused window on SIGUSR1"
-version = "1.0.1"
+version = "1.1.0"
 authors = ["Govind KP <reisub0@gmail.com>"]
 repository = "https://github.com/reisub0/sway-alttab"
 readme = "./README.md"
