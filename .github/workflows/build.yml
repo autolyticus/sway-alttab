@@ -3,11 +3,31 @@ name: build
 on: [push]
 
 jobs:
-  build:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
 
+      - name: Cargo check
+        run: cargo check --verbose
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+
+      - name: Cargo test
+        run: cargo test --verbose
+
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
     - name: Build
-      run: cargo build --release --verbose
+      run: cargo build --verbose
