@@ -32,7 +32,7 @@ jobs:
 
     steps:
     - name: Build
-    - uses: actions/checkout@v1
+      uses: actions/checkout@v1
       run: cargo build --verbose
 
   release-build:
@@ -42,7 +42,7 @@ jobs:
 
     steps:
     - name: Build
-    - uses: actions/checkout@v1
+      uses: actions/checkout@v1
       run: cargo build --release --verbose
     - name: Upload build artifact
       uses: actions/upload-artifact@v1
@@ -62,7 +62,7 @@ jobs:
       run: cargo login $CARGO_TOKEN
 
     - name: Publish
-    - uses: actions/checkout@v1
+      uses: actions/checkout@v1
       run: cargo --verbose publish
 
   release:
