@@ -1,10 +1,6 @@
 name: build
 
-on:
-  push:
-    branches-ignore: '*'
-    tags-ignore: '*'
-
+on: [push]
 
 jobs:
   check:
