@@ -4,6 +4,8 @@
 
 A simple daemon that keeps track of your last focused window and switches to it on receiving a SIGUSR1. Automatically binds Alt-Tab to the same action.
 
+To change the key combo from "Mod1+Tab", use the `-c` flag and set your preferred mapping.
+
 ## Installation
 
 ### From Binaries
