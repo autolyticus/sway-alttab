@@ -94,11 +94,11 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Print tree
-      shell: bash
-      run: |
-        echo HELLO
-        tree -CAhF --dirsfirst
+    # - name: Print tree
+    #   shell: bash
+    #   run: |
+    #     echo HELLO
+    #     tree -CAhF --dirsfirst
 
     - name: Upload Release Asset
       id: upload-release-asset
