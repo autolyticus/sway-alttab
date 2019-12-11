@@ -10,7 +10,14 @@ To change the key combo from "Mod1+Tab", use the `-c` flag and set your preferre
 
 ### From Binaries
 
-Binary releases can be found at the [Releases](https://github.com/reisub0/sway-alttab/releases/latest) page.
+Binary releases (for Linux x86_64) can be found at the [Releases](https://github.com/reisub0/sway-alttab/releases/latest) page.
+
+### From AUR
+
+If you're using Arch Linux, you can install the `sway-alttab-bin` package.
+```bash
+yay -S --aur sway-alttab-bin
+```
 
 ### From Crates.io
 
