@@ -15,6 +15,10 @@ is-it-maintained-issue-resolution = { repository = "reisub0/sway-alttab" }
 is-it-maintained-open-issues = { repository = "reisub0/sway-alttab" }
 maintenance = { status = "actively-developed" }
 
+[profile.release]
+codegen-units = 1
+lto = true
+
 [dependencies]
 swayipc = {"version" = "^2.2.3"}
 signal-hook = {"version" = "^0.1"}

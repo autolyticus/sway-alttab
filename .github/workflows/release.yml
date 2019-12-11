@@ -49,6 +49,9 @@ jobs:
     - name: Build Release
       run: cargo build --release --verbose
 
+    - name: Strip unnecessary symbols
+      run: strip ./target/release/sway-alttab
+
     - name: Upload build artifact
       uses: actions/upload-artifact@v1
       with:
