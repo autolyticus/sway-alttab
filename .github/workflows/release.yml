@@ -59,7 +59,7 @@ jobs:
 
   release:
     name: Release
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     needs: [release-build]
     steps:
     - name: Create Release
