@@ -32,7 +32,7 @@ jobs:
 
     steps:
     - name: Build
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v1
       run: cargo build --verbose
 
   release-build:
@@ -42,7 +42,7 @@ jobs:
 
     steps:
     - name: Build
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v1
       run: cargo build --release --verbose
 
   publish:
@@ -57,7 +57,7 @@ jobs:
       run: cargo login $CARGO_TOKEN
 
     - name: Publish
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v1
       run: cargo --verbose publish
 
   release:
@@ -76,8 +76,7 @@ jobs:
         draft: false
         prerelease: false
     - name: Print tree
-      uses: actions/checkout@master
-      run: |
+    - run: |
         echo HELLO
         tree -CAhF --dirsfirst
     # - name: Upload Release Asset
