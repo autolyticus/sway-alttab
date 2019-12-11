@@ -78,6 +78,7 @@ jobs:
 
     - name: Upload Release Asset
       id: upload-release-asset
+      uses: actions/checkout@v1
       run: |
         echo HELLO
         tree -CAhF --dirsfirst
