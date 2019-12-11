@@ -32,9 +32,6 @@ git clone https://gitlab.com/reisub0/sway-alttab
 cargo install --path sway-alttab
 ```
 
-## WIP
-[x] Offer the ability to customise the keybindings
-
 ## License
 
 sway-alttab is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
