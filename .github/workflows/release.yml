@@ -76,7 +76,7 @@ jobs:
         draft: false
         prerelease: false
     - name: Print tree
-    - run: |
+      run: |
         echo HELLO
         tree -CAhF --dirsfirst
     # - name: Upload Release Asset
