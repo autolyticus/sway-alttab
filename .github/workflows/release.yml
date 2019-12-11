@@ -77,7 +77,6 @@ jobs:
         prerelease: false
 
     - name: Print Tree
-      id: print-tree
       run: tree -CAhF --dirsfirst
 
     # - name: Upload Release Asset
