@@ -75,10 +75,8 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/checkout@v1
+    - name: Print tree
+      uses: actions/checkout@master
       run: |
         echo HELLO
         tree -CAhF --dirsfirst
