@@ -51,11 +51,14 @@ jobs:
     needs: [check, test]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish
+    - name: Login
       env:
         CARGO_TOKEN: ${{ secrets.CARGO_TOKEN }}
-      run: cargo publish --verbose
+      run: cargo login $CARGO_TOKEN
+
+    - name: Publish
+    - uses: actions/checkout@v1
+      run: cargo --verbose publish
 
   release:
     name: Release
@@ -72,13 +75,18 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./target/release/sway-alttab
-        asset_name: sway-alttab
-        asset_content_type: application/octet-stream
+
+    - name: Print Tree
+      id: print-tree
+      run: tree -CAhF --dirsfirst
+
+    # - name: Upload Release Asset
+    #   id: upload-release-asset
+    #   uses: actions/upload-release-asset@v1.0.1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+    #     asset_path: ./target/release/sway-alttab
+    #     asset_name: sway-alttab
+    #     asset_content_type: application/octet-stream
