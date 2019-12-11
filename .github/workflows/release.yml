@@ -43,7 +43,8 @@ jobs:
 
     steps:
     - name: Checkout
-    - uses: actions/checkout@v1
+      uses: actions/checkout@v1
+
     - name: Build Release
       run: cargo build --release --verbose
     - name: Upload build artifact
@@ -63,8 +64,9 @@ jobs:
         CARGO_TOKEN: ${{ secrets.CARGO_TOKEN }}
       run: cargo login $CARGO_TOKEN
 
-    - name: Publish
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Publish to Cargo
       run: cargo --verbose publish
 
   release:
