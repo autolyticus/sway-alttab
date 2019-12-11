@@ -1,10 +1,9 @@
 name: release
 
-# on:
-#   push:
-#     tags:
-#       - 'v[0-9]+.[0-9]+.[0-9]+'
-on: [push]
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   check:
@@ -32,8 +31,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Build
+    - name: Checkout
       uses: actions/checkout@v1
+    - name: Build
       run: cargo build --verbose
 
   release-build:
@@ -42,8 +42,9 @@ jobs:
     needs: [check, test, build]
 
     steps:
-    - name: Build
-      uses: actions/checkout@v1
+    - name: Checkout
+    - uses: actions/checkout@v1
+    - name: Build Release
       run: cargo build --release --verbose
     - name: Upload build artifact
       uses: actions/upload-artifact@v1
@@ -63,7 +64,7 @@ jobs:
       run: cargo login $CARGO_TOKEN
 
     - name: Publish
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v1
       run: cargo --verbose publish
 
   release:
