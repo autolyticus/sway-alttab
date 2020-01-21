@@ -1,6 +1,3 @@
-extern crate clap;
-extern crate daemonize;
-
 use std::env::var;
 use std::fs::remove_file;
 use std::sync::{Arc, Mutex};
