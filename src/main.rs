@@ -23,13 +23,17 @@ fn handle_signal(last_focused: &Arc<Mutex<i64>>) -> Res<()> {
 }
 
 fn unbind_key() -> Res<()> {
+    let yml = load_yaml!("args.yml");
+    let args = App::from_yaml(yml).version(crate_version!()).get_matches();
+    let key_combo = args.value_of("combo").unwrap_or("Mod1+Tab");
+    
     let pid_file = format!(
         "{}/sway-alttab.pid",
         var("XDG_RUNTIME_DIR").unwrap_or("/tmp".to_string())
     );
     Connection::new()?.run_command(format!(
-        "unbindsym Mod1+Tab exec pkill -USR1 -F {}",
-        pid_file
+        "unbindsym {} exec pkill -USR1 -F {}",
+        key_combo, pid_file
     ))?;
     Ok(())
 }
