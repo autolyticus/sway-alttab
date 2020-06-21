@@ -28,7 +28,7 @@ cargo install sway-alttab
 ### From Source
 
 ```bash
-git clone https://gitlab.com/reisub0/sway-alttab
+git clone https://github.com/reisub0/sway-alttab
 cargo install --path sway-alttab
 ```
 
