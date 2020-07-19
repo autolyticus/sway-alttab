@@ -3,22 +3,37 @@ use std::fs::remove_file;
 use std::sync::{Arc, Mutex};
 
 use clap::{crate_version, load_yaml, App};
-use swayipc::reply::Event::Window;
-use swayipc::reply::WindowChange;
-use swayipc::{Connection, EventType};
+use i3ipc::{event::Event, reply::Node, I3Connection, I3EventListener, Subscription};
 
 type Res<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
-fn get_current_focused_id() -> Res<i64> {
-    Connection::new()?
-        .get_tree()?
-        .find_focused_as_ref(|n| n.focused)
-        .map(|n| n.id)
-        .ok_or_else(|| Err("Failed to get current Focused ID").unwrap())
+fn get_current_focused_id(node: &Node) -> Res<i64> {
+    if node.focused == true {
+        return Ok(node.id);
+    }
+    let Node {
+        nodes,
+        floating_nodes,
+        focus,
+        ..
+    } = node;
+    let first = *focus.first().ok_or("No focus")?;
+    for node in nodes {
+        if node.id == first {
+            return get_current_focused_id(node);
+        }
+    }
+    for node in floating_nodes {
+        if node.id == first {
+            return get_current_focused_id(node);
+        }
+    }
+    Err("Failed to get currently focused id")?
 }
 
 fn handle_signal(last_focused: &Arc<Mutex<i64>>) -> Res<()> {
-    Connection::new()?.run_command(format!("[con_id={}] focus", last_focused.lock().unwrap()))?;
+    println!("Received signal");
+    I3Connection::connect()?.run_command(&format!("[con_id={}] focus", last_focused.lock().unwrap()))?;
     Ok(())
 }
 
@@ -26,12 +41,12 @@ fn unbind_key() -> Res<()> {
     let yml = load_yaml!("args.yml");
     let args = App::from_yaml(yml).version(crate_version!()).get_matches();
     let key_combo = args.value_of("combo").unwrap_or("Mod1+Tab");
-    
+
     let pid_file = format!(
         "{}/sway-alttab.pid",
         var("XDG_RUNTIME_DIR").unwrap_or("/tmp".to_string())
     );
-    Connection::new()?.run_command(format!(
+    I3Connection::connect()?.run_command(&format!(
         "unbindsym {} exec pkill -USR1 -F {}",
         key_combo, pid_file
     ))?;
@@ -48,7 +63,7 @@ fn bind_key() -> Res<()> {
         var("XDG_RUNTIME_DIR").unwrap_or("/tmp".to_string())
     );
 
-    Connection::new()?.run_command(format!(
+    I3Connection::connect()?.run_command(&format!(
         "bindsym {} exec pkill -USR1 -F {}",
         key_combo, pid_file
     ))?;
@@ -77,7 +92,7 @@ fn cleanup() {
 
 fn main() -> Res<()> {
     let last_focus = Arc::new(Mutex::new(0));
-    let mut cur_focus = get_current_focused_id()?;
+    let mut cur_focus = get_current_focused_id(&I3Connection::connect()?.get_tree()?)?;
     let clone = Arc::clone(&last_focus);
 
     unsafe {
@@ -90,17 +105,20 @@ fn main() -> Res<()> {
 
     bind_key()?;
 
-    let subs = [EventType::Window];
-    let mut events = Connection::new()?.subscribe(&subs)?;
+    let subs = [Subscription::Window];
+    let mut listener = I3EventListener::connect()?;
+    listener.subscribe(&subs)?;
 
-    loop {
-        let event = events.next();
-        if let Some(Ok(Window(ev))) = event {
-            if ev.change == WindowChange::Focus {
+    for event in listener.listen() {
+        match event.unwrap() {
+            Event::WindowEvent(e) => {
+                println!("{:?}", e.container.id);
                 let mut last = last_focus.lock().unwrap();
                 *last = cur_focus;
-                cur_focus = ev.container.id;
+                cur_focus = e.container.id;
             }
+            _ => unreachable!(),
         }
     }
+    Ok(())
 }
