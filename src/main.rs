@@ -101,6 +101,8 @@ fn main() -> Res<()> {
                 *last = cur_focus;
                 cur_focus = ev.container.id;
             }
+        } else {
+            cleanup();
         }
     }
 }
